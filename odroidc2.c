@@ -17,8 +17,8 @@
 #include <sys/mman.h>
 
 /*----------------------------------------------------------------------------*/
-#include "softPwm.h"
-#include "softTone.h"
+//#include "softPwm.h"
+//#include "softTone.h"
 
 /*----------------------------------------------------------------------------*/
 #include "wiringPi.h"
@@ -190,12 +190,10 @@ static 	void init_adc_fds	(void);
 /*----------------------------------------------------------------------------*/
 static int gpioToGPSETReg (int pin)
 {
-	if (pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END)
-		return  C2_GPIOX_OUTP_REG_OFFSET;
-	if (pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END)
-		return  C2_GPIOY_OUTP_REG_OFFSET;
-	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END)
-		return  C2_GPIODV_OUTP_REG_OFFSET;
+	if (pin >= C2_GPIOX_PIN_START  && pin <= C2_GPIOX_PIN_END)  return  C2_GPIOX_OUTP_REG_OFFSET;
+	if (pin >= C2_GPIOZ_PIN_START  && pin <= C2_GPIOZ_PIN_END)  return  C2_GPIOZ_OUTP_REG_OFFSET;
+	if (pin >= C2_GPIOY_PIN_START  && pin <= C2_GPIOY_PIN_END)  return  C2_GPIOY_OUTP_REG_OFFSET;
+	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END) return  C2_GPIODV_OUTP_REG_OFFSET;
 	return	-1;
 }
 
@@ -206,12 +204,10 @@ static int gpioToGPSETReg (int pin)
 /*----------------------------------------------------------------------------*/
 static int gpioToGPLEVReg (int pin)
 {
-	if (pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END)
-		return  C2_GPIOX_INP_REG_OFFSET;
-	if (pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END)
-		return  C2_GPIOY_INP_REG_OFFSET;
-	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END)
-		return  C2_GPIODV_INP_REG_OFFSET;
+	if (pin >= C2_GPIOX_PIN_START  && pin <= C2_GPIOX_PIN_END)  return  C2_GPIOX_INP_REG_OFFSET;
+	if (pin >= C2_GPIOZ_PIN_START  && pin <= C2_GPIOZ_PIN_END)  return  C2_GPIOZ_INP_REG_OFFSET;
+	if (pin >= C2_GPIOY_PIN_START  && pin <= C2_GPIOY_PIN_END)  return  C2_GPIOY_INP_REG_OFFSET;
+	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END) return  C2_GPIODV_INP_REG_OFFSET;
 	return	-1;
 }
 
@@ -222,12 +218,10 @@ static int gpioToGPLEVReg (int pin)
 /*----------------------------------------------------------------------------*/
 static int gpioToPUENReg (int pin)
 {
-	if (pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END)
-		return  C2_GPIOX_PUEN_REG_OFFSET;
-	if (pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END)
-		return  C2_GPIOY_PUEN_REG_OFFSET;
-	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END)
-		return  C2_GPIODV_PUEN_REG_OFFSET;
+	if (pin >= C2_GPIOX_PIN_START  && pin <= C2_GPIOX_PIN_END)  return  C2_GPIOX_PUEN_REG_OFFSET;
+	if (pin >= C2_GPIOZ_PIN_START  && pin <= C2_GPIOZ_PIN_END)  return  C2_GPIOZ_PUEN_REG_OFFSET;
+	if (pin >= C2_GPIOY_PIN_START  && pin <= C2_GPIOY_PIN_END)  return  C2_GPIOY_PUEN_REG_OFFSET;
+	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END) return  C2_GPIODV_PUEN_REG_OFFSET;
 	return	-1;
 }
 
@@ -238,12 +232,10 @@ static int gpioToPUENReg (int pin)
 /*----------------------------------------------------------------------------*/
 static int gpioToPUPDReg (int pin)
 {
-	if (pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END)
-		return	C2_GPIOX_PUPD_REG_OFFSET;
-	if (pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END)
-		return  C2_GPIOY_PUPD_REG_OFFSET;
-	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END)
-		return  C2_GPIODV_PUPD_REG_OFFSET;
+	if (pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END)   return	C2_GPIOX_PUPD_REG_OFFSET;
+	if (pin >= C2_GPIOZ_PIN_START && pin <= C2_GPIOZ_PIN_END)   return	C2_GPIOZ_PUPD_REG_OFFSET;
+	if (pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END)   return  C2_GPIOY_PUPD_REG_OFFSET;
+	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END) return  C2_GPIODV_PUPD_REG_OFFSET;
 	return	-1;
 }
 
@@ -254,12 +246,10 @@ static int gpioToPUPDReg (int pin)
 /*----------------------------------------------------------------------------*/
 static int gpioToShiftReg (int pin)
 {
-	if (pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END)
-		return  pin - C2_GPIOX_PIN_START;
-	if (pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END)
-		return  pin - C2_GPIOY_PIN_START;
-	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END)
-		return  pin - C2_GPIODV_PIN_START;
+	if (pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END) return  pin - C2_GPIOX_PIN_START;
+	if (pin >= C2_GPIOZ_PIN_START && pin <= C2_GPIOZ_PIN_END) return  pin - C2_GPIOZ_PIN_START;
+	if (pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END) return  pin - C2_GPIOY_PIN_START;
+	if (pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END) return  pin - C2_GPIODV_PIN_START;
 	return	-1;
 }
 
@@ -270,12 +260,10 @@ static int gpioToShiftReg (int pin)
 /*----------------------------------------------------------------------------*/
 static int gpioToGPFSELReg (int pin)
 {
-	if(pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END)
-		return  C2_GPIOX_FSEL_REG_OFFSET;
-	if(pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END)
-		return  C2_GPIOY_FSEL_REG_OFFSET;
-	if(pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END)
-		return  C2_GPIODV_FSEL_REG_OFFSET;
+	if(pin >= C2_GPIOX_PIN_START && pin <= C2_GPIOX_PIN_END) return  C2_GPIOX_FSEL_REG_OFFSET;
+	if(pin >= C2_GPIOZ_PIN_START && pin <= C2_GPIOZ_PIN_END) return  C2_GPIOZ_FSEL_REG_OFFSET;
+	if(pin >= C2_GPIOY_PIN_START && pin <= C2_GPIOY_PIN_END) return  C2_GPIOY_FSEL_REG_OFFSET;
+	if(pin >= C2_GPIODV_PIN_START && pin <= C2_GPIODV_PIN_END) return  C2_GPIODV_FSEL_REG_OFFSET;
 	return	-1;
 }
 /*----------------------------------------------------------------------------*/
